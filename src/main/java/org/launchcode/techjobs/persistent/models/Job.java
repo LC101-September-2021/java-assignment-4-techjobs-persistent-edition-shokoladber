@@ -9,8 +9,14 @@ public class Job{
     @GeneratedValue
     private int id;
 
+    //TODO
+    //add validation annotations, i.e. @valid(min, max)
     private String name;
 
+    //TODO
+    //add validation annotations
+    //add ORM annotations and mapping to connect these Strings (employer, skills) to their classes
+    // for example, @OneToMany(mappedBy = "Employer")
     private String employer;
     private String skills;
 

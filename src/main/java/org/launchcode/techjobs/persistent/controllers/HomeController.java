@@ -20,11 +20,15 @@ public class HomeController {
 
         model.addAttribute("title", "My Jobs");
 
+        //TODO
+        //add model attribute for ${jobs} in index.html
+
         return "index";
     }
 
+
     @GetMapping("add")
-    public String displayAddJobForm(Model model) {
+    public String displayAddJobForm(Model model ) {
         model.addAttribute("title", "Add Job");
         model.addAttribute(new Job());
         return "add";
@@ -39,11 +43,17 @@ public class HomeController {
             return "add";
         }
 
+        //TODO
+        //create model for view if user input is valid?
+
         return "redirect:";
     }
 
     @GetMapping("view/{jobId}")
     public String displayViewJob(Model model, @PathVariable int jobId) {
+
+        //TODO
+        //create model for view using jobID to connect to view
 
         return "view";
     }
