@@ -1,10 +1,12 @@
 package org.launchcode.techjobs.persistent.models;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.validation.Valid;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Employer extends AbstractEntity {
@@ -12,6 +14,10 @@ public class Employer extends AbstractEntity {
     @NotBlank(message = "Required field")
     @Size(max = 50, message = "This field cannot exceed 50 characters.")
     private String location;
+
+    @OneToMany
+    @JoinColumn
+    private List<Job> jobs = new ArrayList<>();
 
     public Employer(String location) {
         this.location = location;
