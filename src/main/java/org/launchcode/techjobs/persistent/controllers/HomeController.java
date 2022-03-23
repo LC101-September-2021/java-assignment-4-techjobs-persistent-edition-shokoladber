@@ -2,8 +2,10 @@ package org.launchcode.techjobs.persistent.controllers;
 
 import org.launchcode.techjobs.persistent.models.Employer;
 import org.launchcode.techjobs.persistent.models.Job;
+import org.launchcode.techjobs.persistent.models.Skill;
 import org.launchcode.techjobs.persistent.models.data.EmployerRepository;
 import org.launchcode.techjobs.persistent.models.data.JobRepository;
+import org.launchcode.techjobs.persistent.models.data.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,9 @@ public class HomeController {
     @Autowired
     private EmployerRepository employerRepository;
 
+    @Autowired
+    private SkillRepository skillRepository;
+
     @RequestMapping("")
     public String index(Model model) {
         model.addAttribute("title", "My Jobs");
@@ -38,21 +43,29 @@ public class HomeController {
         model.addAttribute("title", "Add Job");
         model.addAttribute(new Job());
         model.addAttribute("employers", employerRepository.findAll());
+        model.addAttribute("skills", skillRepository.findAll());
         return "add";
     }
 
 
-//    , @RequestParam List<Integer> skills
+
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-                                       Errors errors, Model model, @RequestParam Integer employerId) {
+                                    Errors errors, Model model,
+                                    @RequestParam Integer employerId,
+                                    @RequestParam List<Integer> skills) {
+
         Optional<Employer> employer = employerRepository.findById(employerId);
+
         if (errors.hasErrors() || employer.isEmpty()) {
             model.addAttribute("title", "Add Job");
             return "add";
         }
 
+        List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+
         newJob.setEmployer(employer.get());
+        newJob.setSkills(skillObjs);
         jobRepository.save(newJob);
 
         return "redirect:";
