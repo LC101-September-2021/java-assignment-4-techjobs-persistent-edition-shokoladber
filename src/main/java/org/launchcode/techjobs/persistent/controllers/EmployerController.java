@@ -43,6 +43,7 @@ public class EmployerController {
         return "redirect:";
     }
 
+    @GetMapping("/view/{employerId}")
     public String displayViewEmployer(Model model, @PathVariable int employerId) {
 
         Optional optEmployer = employerRepository.findById(employerId);
